@@ -53,7 +53,7 @@ public class LargeInt {
 
 		for (int count = firstDigitPosition; count <= lastDigitPosition; count++) {
 			digitChar = intString.charAt(count);
-			digitInt = Character.digit(digitChar, 10);
+			digitInt = Character.digit(digitChar, 2);
 			digitByte = (byte) digitInt;
 			numbers.addEnd(digitByte);
 		}
@@ -68,17 +68,17 @@ public class LargeInt {
 
 		String largeIntString;
 		if (sign == PLUS)
-			largeIntString = "+";
+			largeIntString = "0";
 		else
-			largeIntString = "-";
+			largeIntString = "1";
 
 		int count = numbers.size();
 		Iterator<Byte> forward = numbers.forward();
 		while (forward.hasNext()) {
 			element = forward.next();
 			largeIntString = largeIntString + element;
-			if ((((count - 1) % 3) == 0) && (count != 1))
-				largeIntString = largeIntString + ",";
+//			if ((((count - 1) % 3) == 0) && (count != 1))
+//				largeIntString = largeIntString + ",";
 			count--;
 		}
 		return (largeIntString);
@@ -147,8 +147,8 @@ public class LargeInt {
 			digit1 = largerReverse.next();
 			digit2 = smallerReverse.next();
 			temp = (byte) (digit1 + digit2 + carry);
-			carry = (byte) (temp / 10);
-			result.addFront((byte) (temp % 10));
+			carry = (byte) (temp / 2);
+			result.addFront((byte) (temp % 2));
 		}
 
 		// Finish processing of leftover digits
@@ -156,8 +156,8 @@ public class LargeInt {
 		for (int count = 1; count <= lengthDiff; count++) {
 			digit1 = largerReverse.next();
 			temp = (byte) (digit1 + carry);
-			carry = (byte) (temp / 10);
-			result.addFront((byte) (temp % 10));
+			carry = (byte) (temp / 2);
+			result.addFront((byte) (temp % 2));
 		}
 		if (carry != 0)
 			result.addFront((byte) carry);
