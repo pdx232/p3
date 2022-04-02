@@ -226,6 +226,58 @@ public class LargeInt {
 		return result;
 	}
 
+	protected static LargeIntList multiplyLists(LargeIntList first, LargeIntList second)
+	// Returns a specialized list that is a byte-by-byte sum of the two
+	// argument lists
+	{
+		byte multiplier;
+		byte multiplicand;
+		byte temp;
+		byte tempDigit;
+		byte carry = 0;
+
+		int multiplierLength = first.size();
+		int multiplicandLength = second.size();
+		int lengthDiff;
+
+		LargeIntList result = new LargeIntList();
+		LargeIntList tempList = new LargeIntList();
+
+
+		Iterator<Byte> multiplierReverse = first.reverse();
+		Iterator<Byte> multiplicandReverse = second.reverse();
+		Iterator<Byte> tempListReverse;
+		// Process both lists while both have digits
+		for (int i = 1; i <= multiplicandLength; i++) {
+			multiplier = multiplierReverse.next();
+			
+			for(int j = 1; j <= multiplierLength; j++) {
+				multiplicand = multiplicandReverse.next();
+				tempList.addFront((byte) (multiplier * multiplicand));
+			}
+			
+			tempListReverse = tempList.reverse();
+			tempDigit = tempListReverse.next();
+			
+			result = addLists(result, tempList);
+			
+		}
+
+//		// Finish processing of leftover digits
+//		lengthDiff = (largerLength - smallerLength);
+//		for (int count = 1; count <= lengthDiff; count++) {
+//			digit1 = largerReverse.next();
+//			temp = (byte) (digit1 + carry);
+//			carry = (byte) (temp / 2);
+//			result.addFront((byte) (temp % 2));
+//		}
+//		
+//		if (carry != 0)
+//			result.addFront((byte) carry);
+
+		return result;
+	}
+
 	public static LargeInt add(LargeInt first, LargeInt second)
 	// Returns a LargeInt that is the sum of the two argument LargeInts
 	{
@@ -268,5 +320,18 @@ public class LargeInt {
 		diff = add(first, negSecond);
 
 		return diff;
+	}
+
+	public static LargeInt multiply(LargeInt first, LargeInt second) {
+		LargeInt product = new LargeInt();
+
+		if (first.sign != second.sign) {
+			// order doesn't matter for multiplication, only sign
+			product.numbers = multiplyLists(first.numbers, second.numbers);
+			product.sign = !product.sign;
+		} 
+
+		return product;
+
 	}
 }

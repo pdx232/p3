@@ -17,11 +17,16 @@ public class MathDriver {
 	
 		System.out.println("I will perform M * N and M / N. All input and output will be in hex.\r\n");
 		System.out.print("Value of M?\r\n> ");
-		M = sc.next();
+//		M = sc.next();
+		
+		M = "16"; // DEBUG PURPOSES
+		
 		System.out.println();
 		
 		System.out.print("Value of N?\r\n> ");
-		N = sc.next();
+//		N = sc.next();
+		
+		N = "D"; // DEBUG PURPOSES
 		
 		// convert Hex input to Decimal, then convert from Decimal to binary
 		
@@ -39,12 +44,19 @@ public class MathDriver {
 		
 		
 		
+		
+		
 		// converts product from Binary to Hex and print
-		product = LargeInt.add(mInput, nInput);
+		product = LargeInt.multiply(mInput, nInput); // CHANGE THIS TO MUTLIPLY WHEN METHOD IS DONE
 		answer = product.toString();
 		intAnswer = Integer.parseInt(answer, 2);
 		answer = Integer.toHexString(intAnswer);
 		
+		
+		// 22 * 13
+		// should print out 11E
+		
+		System.out.println(); // DEBUG
 		System.out.println(answer);
 		
 		
