@@ -66,11 +66,11 @@ public class LargeInt {
 	public String toString() {
 		Byte element;
 
-		String largeIntString;
-		if (sign == PLUS)
-			largeIntString = "0";
-		else
-			largeIntString = "1";
+		String largeIntString = "0";
+//		if (sign == PLUS)
+//			largeIntString = "0";
+//		else
+//			largeIntString = "1";
 
 		int count = numbers.size();
 		Iterator<Byte> forward = numbers.forward();
@@ -241,25 +241,31 @@ public class LargeInt {
 		int lengthDiff;
 
 		LargeIntList result = new LargeIntList();
-		LargeIntList tempList = new LargeIntList();
+		LargeIntList tempList;
 
 
-		Iterator<Byte> multiplierReverse = first.reverse();
+		Iterator<Byte> multiplierReverse;
 		Iterator<Byte> multiplicandReverse = second.reverse();
 		Iterator<Byte> tempListReverse;
 		// Process both lists while both have digits
 		for (int i = 1; i <= multiplicandLength; i++) {
-			multiplier = multiplierReverse.next();
+			tempList = new LargeIntList();
+			multiplicand = multiplicandReverse.next();
 			
+			for(int z = 1; z < i; z++) {
+				tempList.addEnd((byte) 0);
+			}
+			
+			multiplierReverse  = first.reverse();
 			for(int j = 1; j <= multiplierLength; j++) {
-				multiplicand = multiplicandReverse.next();
+				multiplier = multiplierReverse.next();
 				tempList.addFront((byte) (multiplier * multiplicand));
 			}
 			
 			tempListReverse = tempList.reverse();
 			tempDigit = tempListReverse.next();
 			
-			result = addLists(result, tempList);
+			result = addLists(tempList, result);
 			
 		}
 
@@ -325,13 +331,24 @@ public class LargeInt {
 	public static LargeInt multiply(LargeInt first, LargeInt second) {
 		LargeInt product = new LargeInt();
 
+		product.numbers = multiplyLists(first.numbers, second.numbers);
+		
 		if (first.sign != second.sign) {
 			// order doesn't matter for multiplication, only sign
-			product.numbers = multiplyLists(first.numbers, second.numbers);
 			product.sign = !product.sign;
 		} 
 
 		return product;
 
 	}
-}
+
+
+	public static LargeInt divide(LargeInt first, LargeInt second) {
+		LargeInt quotient = new LargeInt();
+		
+		
+		
+		return quotient;
+	}
+	
+}// end main
