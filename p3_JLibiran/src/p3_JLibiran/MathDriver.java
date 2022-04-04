@@ -47,7 +47,7 @@ public class MathDriver {
 		
 		
 		// converts product from Binary to Hex and print
-		product = LargeInt.multiply(mInput, nInput); // CHANGE THIS TO MUTLIPLY WHEN METHOD IS DONE
+		product = LargeInt.subtract(mInput, nInput); // CHANGE THIS TO MUTLIPLY WHEN METHOD IS DONE
 		answer = product.toString();
 		intAnswer = Integer.parseInt(answer, 2);
 		answer = Integer.toHexString(intAnswer);

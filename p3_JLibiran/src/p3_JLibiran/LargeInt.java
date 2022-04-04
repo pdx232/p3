@@ -192,7 +192,7 @@ public class LargeInt {
 					digit1 = (byte) (digit1 - 1);
 					borrow = false;
 				} else {
-					digit1 = 9;
+					digit1 = 0;
 					borrow = true;
 				}
 			}
@@ -203,7 +203,7 @@ public class LargeInt {
 				result.addFront((byte) (digit1 - digit2));
 			else {
 				borrow = true;
-				result.addFront((byte) (digit1 + 10 - digit2));
+				result.addFront((byte) (digit1 + 1 - digit2));
 			}
 		}
 
@@ -216,7 +216,7 @@ public class LargeInt {
 					digit1 = (byte) (digit1 - 1);
 					borrow = false;
 				} else {
-					digit1 = 9;
+					digit1 = 0;
 					borrow = true;
 				}
 			}
@@ -313,11 +313,16 @@ public class LargeInt {
 	// Returns a LargeInt that is the difference of the two argument LargeInts
 	{
 		LargeInt diff = new LargeInt();
+		StringBuffer str = new StringBuffer();
 
 		// Create an inverse of second
-		LargeInt negSecond = new LargeInt();
+//		LargeInt negSecond = new LargeInt();
+		LargeInt negSecond = new LargeInt(twosComplement(str.append(second.toString())));
+		
+		
 		negSecond.sign = !second.sign;
 		Iterator<Byte> secondForward = second.numbers.forward();
+		
 		int length = second.numbers.size();
 		for (int count = 1; count <= length; count++)
 			negSecond.numbers.addEnd(secondForward.next());
@@ -349,6 +354,39 @@ public class LargeInt {
 		
 		
 		return quotient;
+	}
+	
+	protected static String twosComplement(StringBuffer input) {
+		// Outputs the twos complement of Input
+		
+	    int n = input.length();
+	      
+        // Traverse the string to get first '1' from
+        // the last of string
+        int i;
+        for (i = n-1 ; i >= 0 ; i--)
+            if (input.charAt(i) == '1')
+                break;
+      
+        // If there exists no '1' concat 1 at the
+        // starting of string
+        if (i == -1)
+            return "1" + input;
+      
+        // Continue traversal after the position of
+        // first '1'
+        for (int k = i-1 ; k >= 0; k--)
+        {
+            //Just flip the values
+            if (input.charAt(k) == '1')
+                input.replace(k, k+1, "0");
+            else
+                input.replace(k, k+1, "1");
+        }
+      
+        // return the modified string
+        return input.toString();
+    
 	}
 	
 }// end main
